@@ -1,3 +1,4 @@
 .env
 datos_pruebas/
 __pycache__/
+pruebas.py

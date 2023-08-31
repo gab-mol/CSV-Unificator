@@ -1,4 +1,4 @@
-
+'''CSV-Unificator: vista'''
 from tkinter import Tk, Label, StringVar, Button, Entry, messagebox
 from model import pedir_ruta, secuencia, preg_carp, dir_sal_cvs
 
@@ -6,7 +6,7 @@ from model import pedir_ruta, secuencia, preg_carp, dir_sal_cvs
 root = Tk()
 root.geometry("290x330")
 root.config(bg="#C2E871")
-root.title("Conversor .cvs a .xlsx")
+root.title("CSV-Unificator")
 
 
 instrucciones0 = Label(text="Previamente: Guardar solo los .cvs en una carpeta", 
