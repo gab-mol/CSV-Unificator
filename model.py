@@ -44,10 +44,11 @@ __annotations__ = 'Reescribiendo -01/09/23'
 # Clases Modelo ###############
 
 class EntrArchiv:
+    '''Métodos para carga y procesado de .csv'''
     def __init__(self) -> None:
         pass
 
-    def pedir_ruta(self, var_dir_csv):
-        self.ruta_dir_csv = filedialog.askdirectory()
-        self.var_dir_csv = var_dir_csv
-        self.var_dir_csv.set(var_dir_csv)
+    def pedir_ruta(self) -> str:
+        '''Solicita al usuario ubicación de directorio'''
+        ruta_dir_csv = filedialog.askdirectory()
+        return  ruta_dir_csv

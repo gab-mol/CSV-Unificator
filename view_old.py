@@ -13,8 +13,8 @@ instrucciones0 = Label(text="Previamente: Guardar solo los .cvs en una carpeta",
 font= ("Arial", 8, "bold") ,bg="#C2E871", pady=10, width=41, underline=21)
 instrucciones0.grid(column=0, columnspan=2, row=0)
 
-boton_rutacvs = Button(text="Buscar carpeta con archivos .cvs", command=lambda:pedir_ruta(), pady=10, 
-width=40, bg="#DBF1AD")
+boton_rutacvs = Button(text="Buscar carpeta con archivos .cvs", 
+    command=lambda:pedir_ruta(), pady=10, width=40, bg="#DBF1AD")
 boton_rutacvs.grid(column=0, columnspan=2, row=1)
 
 ##Etiqueta con ruta:

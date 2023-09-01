@@ -76,7 +76,8 @@ def archivos():
         n_corte = int(filas.get())
         if len(cvs_i.index)>filas_cvs0: cvs_i = cvs_i.iloc[0:n_corte]
         cvs_i.columns = [f"{i[:-4]}"]
-        tabla_salida = pd.merge(tabla_salida, cvs_i, left_index=True, right_index=True)  
+        tabla_salida = pd.merge(tabla_salida, cvs_i, left_index=True, 
+                                right_index=True)  
     return tabla_salida
 
 

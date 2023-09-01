@@ -2,8 +2,8 @@
 
 from tkinter import Tk
 
-import view
-from model import __version__, __copyright__
+import view_old
+from model_old import __version__, __copyright__
 
 class Launcher:
     '''
@@ -11,7 +11,7 @@ class Launcher:
     '''
     def __init__(self, main):
         self.root_mainloop=main
-        self.objeto_vista=view.Ventana(self.root_mainloop)
+        self.objeto_vista=view_old.Ventana(self.root_mainloop)
 
 if __name__=="__main__":
     print("")
