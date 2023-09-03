@@ -52,3 +52,4 @@ class EntrArchiv:
         '''Solicita al usuario ubicación de directorio'''
         ruta_dir_csv = filedialog.askdirectory()
         return  ruta_dir_csv
+    

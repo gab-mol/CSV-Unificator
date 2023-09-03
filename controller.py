@@ -1,6 +1,6 @@
 '''CSV-Unificator: controlador'''
 
-from tkinter import Tk
+import tkinter
 
 import view_old
 from model_old import __version__, __copyright__
@@ -21,6 +21,6 @@ if __name__=="__main__":
     print("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||")
     print("")
     print(__annotations__)
-    main=Tk()
+    main=tkinter.Tk()
     aplicacion=Launcher(main)
     main.mainloop()
