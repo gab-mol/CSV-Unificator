@@ -31,8 +31,10 @@ class HoFe:
         return fecha
 
 
-# Variables de entorno (.env)
+# Entrada de variables de entorno (.env)
 load_dotenv()
+
+# 
 __author__ = "Gabriel Molina"
 __maintainer__ = "Gabriel Molina"
 __email__ = "g-abox@hotmail.com"
@@ -43,13 +45,42 @@ __annotations__ = 'Reescribiendo -01/09/23'
 
 # Clases Modelo ###############
 
-class EntrArchiv:
-    '''Métodos para carga y procesado de .csv'''
-    def __init__(self) -> None:
-        pass
-
-    def pedir_ruta(self) -> str:
+class Archivos:
+    '''Métodos para ingreso y procesado de archivos.'''
+    
+    @staticmethod
+    def pedir_ruta() -> str:
         '''Solicita al usuario ubicación de directorio'''
         ruta_dir_csv = filedialog.askdirectory()
         return  ruta_dir_csv
     
+    def inspec_dir(ruta_carp_cvs_s:str):
+        lista_csv = os.listdir(ruta_carp_cvs_s)
+        
+        # ruta al primer archivo
+        ruta_0 = os.path.join(ruta_carp_cvs_s, lista_csv[0])
+        t_0 = pd.read_csv(ruta_0, skiprows=[0], header = None)
+        t_0 = t_0.drop(labels=0, axis=0)
+        
+        #filas_cvs0 = len(t_0.index)
+        #filas.set(str(filas_cvs0))
+        
+        
+class EventosBot:
+    '''Acciones de los botones'''
+    def __init__(self, strvar, sal_tex) -> None:
+        self.strvar = strvar
+        self.sal_tex = sal_tex
+        
+    def entr_ruta(self, END):
+        '''Solicita ruta, la guarda en stringvar y muestra en
+        widget.'''
+        ruta_csv_str = Archivos.pedir_ruta()
+        
+        self.strvar.set(ruta_csv_str) # hace falta?
+        
+        self.sal_tex.delete("1.0", "end")
+        self.sal_tex.insert(END, ruta_csv_str)
+        print("\nRUTA ELEGIDA: ", self.strvar.get(),"\n")
+        
+        

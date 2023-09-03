@@ -6,7 +6,7 @@ from tkinter import Label, StringVar, Button, Entry, messagebox, Text, END
 from tkinter import Tk
 ########################
 
-from model import EntrArchiv
+from model import EventosBot
 
 # colores
 FONDO = "#FAD6D0"
@@ -22,9 +22,6 @@ class Window:
         root.geometry("800x330")
         root.config(bg=FONDO)
         root.title("CSV-Unificator")
-
-        # Instanciación modelo
-        entrada = EntrArchiv()
         
         # Texto instructivo
         instrucciones0 = Label(text="Guardar los .csv en una carpeta (SOLOS)",
@@ -50,34 +47,19 @@ class Window:
         
         # Botones
         boton_rutacvs = Button(text="Buscar carpeta con archivos .cvs",
-        command=lambda:boton_pedir_csv(), pady=10, padx=5, height = 2, 
+        command=lambda:pedir_csv.entr_ruta(END), pady=10, padx=5, height = 2, 
         width=40, bg=BOTONES)
         boton_rutacvs.place(relx = 0.01, rely = 0.15)
         
         boton_rutasal = Button(text="Elegir salida del libro excel  ",
-        command=lambda:pedir_ruta_salida(), pady=10, padx=5, height = 2, 
+        command=lambda:ruta_salida.entr_ruta(END), pady=10, padx=5, height = 2, 
         width=40, bg=BOTONES)
         boton_rutasal.place(relx = 0.01, rely = 0.4)
 
         # Eventos de botones
-        def boton_pedir_csv():
-            ruta_csv_str = entrada.pedir_ruta()
-            
-            ruta_carp_cvs_s.set(ruta_csv_str) # hace falta?
-            
-            salida_ruta_csv.delete("1.0", "end")
-            salida_ruta_csv.insert(END, ruta_csv_str)
-            print("\nRUTA ENTRADA ELEGIDA: ",ruta_carp_cvs_s.get(),"\n")
-
-        def pedir_ruta_salida():
-            ruta_xlsx_str = entrada.pedir_ruta()
-            
-            ruta_xlsx_s.set(ruta_xlsx_str)
-            
-            salida_ruta_excel.delete("1.0", "end")
-            salida_ruta_excel.insert(END, ruta_xlsx_str)
-            print("\nRUTA SALIDA ELEGIDA: ",ruta_xlsx_s.get(),"\n")
-
+        pedir_csv = EventosBot(ruta_carp_cvs_s, salida_ruta_csv)
+        ruta_salida = EventosBot(ruta_xlsx_s, salida_ruta_excel)
+        
 
 ### para desarrollo ###
 if __name__=="__main__":
