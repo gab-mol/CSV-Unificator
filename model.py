@@ -54,9 +54,18 @@ class Archivos:
         ruta_dir_csv = filedialog.askdirectory()
         return  ruta_dir_csv
     
-    def inspec_dir(ruta_carp_cvs_s:str):
+    def cargar_csv(ruta_carp_cvs_s:str):
+        '''Carga todos los csv en: [[nombre.csv, dataframe], ..n]'''
         lista_csv = os.listdir(ruta_carp_cvs_s)
-        
+        lista_dfs = []
+        for i in range(len(lista_csv)):
+            df = pd.read_csv(os.path.join(ruta_carp_cvs_s, lista_csv[i]), skiprows=[0], header = None)
+            lista_dfs.append([lista_csv[i], df])
+        return lista_dfs
+    
+    def unir_csv(lista_dfs:list):
+        '''Crea la tabla conjunta \nNOTA: recordar que deben tener = nfilas'''
+
         # ruta al primer archivo
         ruta_0 = os.path.join(ruta_carp_cvs_s, lista_csv[0])
         t_0 = pd.read_csv(ruta_0, skiprows=[0], header = None)
@@ -64,8 +73,15 @@ class Archivos:
         
         #filas_cvs0 = len(t_0.index)
         #filas.set(str(filas_cvs0))
-        
-        
+    
+    def verificar_nfilas(lista_dfs):
+        '''Avisar al usuario si no todos los csv tienen el mismo largo.
+        NOTA: esto pasa cuando se varió el tiempo de ensayo durante el mismo.'''
+        largos = []
+        for csv in lista_dfs:
+            largos.append(csv[1].shape[0])
+
+
 class EventosBot:
     '''Acciones de los botones'''
     def __init__(self, strvar, sal_tex) -> None:
@@ -77,7 +93,7 @@ class EventosBot:
         widget.'''
         ruta_csv_str = Archivos.pedir_ruta()
         
-        self.strvar.set(ruta_csv_str) # hace falta?
+        self.strvar.set(ruta_csv_str)
         
         self.sal_tex.delete("1.0", "end")
         self.sal_tex.insert(END, ruta_csv_str)

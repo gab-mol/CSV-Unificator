@@ -14,7 +14,7 @@ ETIQUETAS = "#FAD8D0"
 BOTONES = "#E79A7A"
 
 # Fuentes
-F_TITULO = ("Arial", 15, "bold")
+F_TITULO = ("Arial", 14, "bold")
 
 class Window:
     def __init__(self, root_mainloop):
@@ -55,6 +55,11 @@ class Window:
         command=lambda:ruta_salida.entr_ruta(END), pady=10, padx=5, height = 2, 
         width=40, bg=BOTONES)
         boton_rutasal.place(relx = 0.01, rely = 0.4)
+
+        boton_convert = Button(text="> Convertir archivos <",
+        command=lambda:ruta_salida.entr_ruta(END), pady=5, padx=1, height = 2, 
+        width=29, bg=BOTONES, font=("Arial", 12, "bold"))
+        boton_convert.place(relx = 0.01, rely = 0.65)
 
         # Eventos de botones
         pedir_csv = EventosBot(ruta_carp_cvs_s, salida_ruta_csv)
