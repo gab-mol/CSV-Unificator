@@ -12,7 +12,7 @@ import os
 import time
 import shutil
 import pandas as pd
-from tkinter import filedialog # Repensar
+from tkinter import filedialog, messagebox
 
 class HoFe:
     '''
@@ -91,26 +91,42 @@ class Archivos:
 
         # Si hay variación en n de filas: ###########
         if len(frecuencias_largos) > 1:
+            
             i_mayor = 0
             for frec in frecuencias_largos:
                 if frec == max(frecuencias_largos): break 
                 else: i_mayor+=1
-
-            conflictos_i = []
             
-            i = 0
-            for l in largos:
-                print(self.lista_csv[i], l, largos_unicos[i_mayor])
-                if l != largos_unicos[i_mayor]:
-                    conflictos_i.append(i)
-                i += 1
+            # por si llegara a pasar que 2 o + frecuencias iguales
+            j = 0
+            for frec in frecuencias_largos:
+                if frec == max(frecuencias_largos): 
+                    j+=1
+            
+            if j > 1: 
+                print("ERROR: MUCHOS ARCHIVOS CON DISTINTO N° DE FILAS")
+                messagebox.showerror("Inconsistencia en N° filas", 
+                    "Conflicto: revisar los archivos, probablemente se hayan \
+                    realizado medidas a tiempos distintos")
+            #########################    
+            else:
+                # Informar sobre archivos problemáticos
+                conflictos_i = []
+                i = 0
+                for l in largos:
+                    print(self.lista_csv[i], l, largos_unicos[i_mayor])
+                    if l != largos_unicos[i_mayor]:
+                        conflictos_i.append(i)
+                    i += 1
 
-            conflictos_n = []
-            for i in conflictos_i:
-                conflictos_n.append(self.lista_csv[i])
-            print("¡¡¡Hay archivos con distinto número de fila!!!")
-            print("Largos:", largos_unicos)
-            print("Revisar:", conflictos_n)
+                conflictos_n = []
+                for i in conflictos_i:
+                    conflictos_n.append(self.lista_csv[i])
+                print("¡¡¡Hay archivos con distinto número de fila!!!")
+                print("Largos:", largos_unicos)
+                print("Revisar:", conflictos_n)
+                messagebox.showerror("Inconsistencia en N° filas",
+                    f"\nN° filas registrados:, {largos_unicos} \nRevisar: {conflictos_n}")
     
     def unir_csv(self):
         '''Crea la tabla conjunta \nNOTA: recordar que deben tener = nfilas'''

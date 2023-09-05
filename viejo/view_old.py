@@ -1,6 +1,6 @@
 '''CSV-Unificator: vista'''
 from tkinter import Tk, Label, StringVar, Button, Entry, messagebox
-from model_old import pedir_ruta, secuencia, preg_carp, dir_sal_cvs
+from viejo.model_old import pedir_ruta, secuencia, preg_carp, dir_sal_cvs
 
 
 root = Tk()
