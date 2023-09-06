@@ -45,6 +45,13 @@ __annotations__ = 'Reescribiendo -01/09/23'
 
 # Clases Modelo ###############
 
+def impr_nfilas(nfilas:list) -> str:
+    '''Para notificar más bonito.'''
+    sal = ""
+    for n in nfilas:
+        sal = sal + (f"\n\t{n}")
+    return sal
+
 def unique(lista:list):
     '''Algoritmo (google) para quedarse con valores
     únicos de lista.'''
@@ -67,7 +74,8 @@ class Archivos:
         '''Carga todos los csv en: [[nombre.csv, dataframe], ..n]'''
         lista_dfs = []
         for i in range(len(self.lista_csv)):
-            df = pd.read_csv(os.path.join(self.ruta_dir_csv, self.lista_csv[i]), skiprows=[0], header = None)
+            df = pd.read_csv(os.path.join(self.ruta_dir_csv, self.lista_csv[i]), 
+                skiprows=[0], header = None)
             lista_dfs.append([self.lista_csv[i], df])
         self.lista_dfs = lista_dfs
     
@@ -126,7 +134,7 @@ class Archivos:
                 print("Largos:", largos_unicos)
                 print("Revisar:", conflictos_n)
                 messagebox.showerror("Inconsistencia en N° filas",
-                    f"\nN° filas registrados:, {largos_unicos} \nRevisar: {conflictos_n}")
+                    f"\nN° filas registrados: {largos_unicos} \n\nREVISAR: {impr_nfilas(conflictos_n)}")
     
     def unir_csv(self):
         '''Crea la tabla conjunta 
@@ -161,9 +169,12 @@ class EventosBot:
         self.ruta = filedialog.askdirectory()
         
         self.strvar.set(self.ruta)
-        
+
+        self.sal_tex.config(state="normal")
         self.sal_tex.delete("1.0", "end")
         self.sal_tex.insert(END, self.ruta)
+        self.sal_tex.config(state="disabled")
+
         print("\nRUTA ELEGIDA: ", self.strvar.get(),"\n")
     
     def csv_a_df(self, END):
@@ -178,10 +189,22 @@ class EventosBot:
         if nombre == "":
             messagebox.showerror("Falta nombre de archivo", 
                 "Especificar nombre de libro excel.")
-        self.tabla_salida = self.archivos.unir_csv()
+            
+        try: 
+            self.tabla_salida = self.archivos.unir_csv()
+        except:
+            messagebox.showerror("ERROR","Algo falló en conversión")
+            raise Exception("Error de conversión")
+
         ruta_arch = os.path.join(ruta_salida, f"{nombre}.xlsx")
         print("salida: " + ruta_salida)
 
         # Creación de archivo .xlsx
         self.tabla_salida.to_excel(ruta_arch, index=False)
-        
+
+    @staticmethod
+    def info():
+        '''Información que me pareció relevante ofrecer al usuario.'''
+        messagebox.showinfo("Información:", "- Se toma al primer archivo \
+de la carpeta como referencia para la columna inicial de tiempo.\n\n\
+- El título por defecto de esta es: `Time/sec`.")
