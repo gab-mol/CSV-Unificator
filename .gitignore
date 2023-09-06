@@ -1,9 +1,9 @@
 .env
 datos_pruebas/
 __pycache__/
+viejo/
 pruebas.py
 pruebas2.py
 abrir_proy.bat
-viejo/
 model_old
 view_old
