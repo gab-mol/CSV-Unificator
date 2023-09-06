@@ -11,7 +11,7 @@ class Launcher:
     '''
     def __init__(self, main):
         self.root_mainloop=main
-        self.objeto_vista=view.Ventana(self.root_mainloop)
+        self.objeto_vista=view.Window(main)
 
 if __name__=="__main__":
     print("")

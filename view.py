@@ -1,10 +1,6 @@
 '''CSV-Unificator: vista'''
 
-from tkinter import Label, StringVar, Button, Entry, messagebox, Text, END
-
-### para desarrollo ###
-from tkinter import Tk
-########################
+from tkinter import Label, StringVar, Button, Entry, Text, END
 
 from model import EventosBot
 
@@ -30,9 +26,6 @@ class Window:
         instrucciones1 = Label(text="Nombre del libro de excel:",
         font= ("Arial", 12, "bold"), bg=ETIQUETAS, pady=0, padx=0, width=25)
         instrucciones1.place(relx = 0.63, rely = 0.62, anchor="n")
-        # filas_label = Label(text="n° de filas (+títulos): ", bg=ETIQUETAS, padx=1)
-        # filas_label.place(relx = 0.01, rely = 0.15)
-
         
         # Variables entrada/salida
         ruta_carp_cvs_s = StringVar() # hace falta? - supongo que para pasar a modelo 
@@ -72,10 +65,3 @@ class Window:
         # Eventos de botones
         pedir_csv = EventosBot(ruta_carp_cvs_s, salida_ruta_csv)
         ruta_salida = EventosBot(ruta_xlsx_s, salida_ruta_excel)
-        
-
-### para desarrollo ###
-if __name__=="__main__":
-    root = Tk()
-    lanzar = Window(root)
-    root.mainloop()
