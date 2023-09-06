@@ -65,7 +65,7 @@ class Window:
         boton_rutasal.place(relx = 0.01, rely = 0.4)
 
         boton_convert = Button(text="> Convertir archivos <",
-        command=lambda:ruta_salida.convert(ruta_salida.ruta, nombre_xlsx.get()), pady=5, padx=1, height = 2, 
+        command=lambda:ruta_salida.convert(ruta_xlsx_s.get(), nombre_xlsx.get()), pady=5, padx=1, height = 2, 
         width=29, bg=BOTONES, font=("Arial", 12, "bold"))
         boton_convert.place(relx = 0.01, rely = 0.65)
 
