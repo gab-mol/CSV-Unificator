@@ -57,11 +57,11 @@ def unique(lista:list):
     return largos_unicos
 
 class Archivos:
-    '''Métodos para ingreso y procesado de archivos.'''
-    def __init__(self) -> None:
-        '''Solicita al usuario ubicación de directorio.
-        Carga todos los .csv.'''
-        self.ruta_dir_csv = filedialog.askdirectory()
+    '''Métodos para carga y procesado de archivos.'''
+    def __init__(self, ruta_dir_csv) -> None:
+        '''Recibe ruta y carga todos los archivos .csv
+        en df (pandas).'''
+        self.ruta_dir_csv = ruta_dir_csv
         self.lista_csv = os.listdir(self.ruta_dir_csv)
         
         '''Carga todos los csv en: [[nombre.csv, dataframe], ..n]'''
@@ -129,16 +129,25 @@ class Archivos:
                     f"\nN° filas registrados:, {largos_unicos} \nRevisar: {conflictos_n}")
     
     def unir_csv(self):
-        '''Crea la tabla conjunta \nNOTA: recordar que deben tener = nfilas'''
+        '''Crea la tabla conjunta 
+        NOTA: recordar que deben tener = nfilas'''
 
         # ruta al primer archivo
-        ruta_0 = os.path.join(self.ruta_dir_csv, self.lista_csv[0])
-        t_0 = pd.read_csv(ruta_0, skiprows=[0], header = None)
-        t_0 = t_0.drop(labels=0, axis=0)
+        csv0 = self.lista_dfs[0]
+        t0 = csv0[1]
+        tabla_salida = t0.drop(t0.columns[[1]], axis=1)
+        tabla_salida.columns = ["Time/sec"]
+        for l in self.lista_dfs:
+            df = l[1].drop(labels=0, axis=0)
+            df = df.drop(df.columns[[0]], axis=1)
+            df.columns = [l[0]]
+            tabla_salida = pd.merge(tabla_salida, df,
+                 left_index=True, right_index=True)
         
-        #filas_cvs0 = len(t_0.index)
-        #filas.set(str(filas_cvs0))
-
+        #Esta f cambia los decimales a puntos
+        tabla_salida = tabla_salida.apply(lambda x: x.str.replace('.', ','))
+        
+        return tabla_salida
 
 class EventosBot:
     '''Acciones de los botones'''
@@ -149,12 +158,30 @@ class EventosBot:
     def entr_ruta(self, END):
         '''Solicita ruta, la guarda en stringvar y muestra en
         widget.'''
-        archivos = Archivos()
+        self.ruta = filedialog.askdirectory()
         
-        self.strvar.set(archivos.ruta_dir_csv)
+        self.strvar.set(self.ruta)
         
         self.sal_tex.delete("1.0", "end")
-        self.sal_tex.insert(END, archivos.ruta_dir_csv)
+        self.sal_tex.insert(END, self.ruta)
         print("\nRUTA ELEGIDA: ", self.strvar.get(),"\n")
-        
+    
+    def csv_a_df(self, END):
+        '''Recibe ruta a carpeta de csv, y carga a df 
+        los mismos.'''
+        self.entr_ruta(END)
+        self.archivos = Archivos(self.ruta)
+        self.archivos.verificar_nfilas()
+    
+
+    def convert(self, ruta_salida:str, nombre:str):
+        if nombre == "":
+            messagebox.showerror("Falta nombre de archivo", 
+                "Especificar nombre de libro excel.")
+        self.tabla_salida = self.archivos.unir_csv()
+        ruta_arch = os.path.join(ruta_salida, f"{nombre}.xlsx")
+        print("salida: " + ruta_salida)
+
+        # Creación de archivo .xlsx
+        self.tabla_salida.to_excel(ruta_arch, index=False)
         
