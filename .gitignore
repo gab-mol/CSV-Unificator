@@ -2,8 +2,10 @@
 datos_pruebas/
 __pycache__/
 viejo/
+versiones_ejec/
 pruebas.py
 pruebas2.py
 abrir_proy.bat
 model_old
 view_old
+icono.ico
