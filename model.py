@@ -13,6 +13,7 @@ import time
 # import shutil
 import pandas as pd
 from tkinter import filedialog, messagebox
+import re
 
 class HoFe:
     '''
@@ -52,16 +53,6 @@ def impr_nfilas(nfilas:list) -> str:
         sal = sal + (f"\n\t{n}")
     return sal
 
-def unique(lista:list):
-    '''Algoritmo (google) para quedarse con valores
-    únicos de lista.'''
-    largos_unicos = []
-    for x in lista:
-        # solo agrega si no está presente (pasa 1 vez)
-        if x not in largos_unicos:
-            largos_unicos.append(x)
-
-    return largos_unicos
 
 class Archivos:
     '''Métodos para carga y procesado de archivos.'''
@@ -190,6 +181,8 @@ class EventosBot:
             messagebox.showerror("Falta nombre de archivo", 
                 "Especificar nombre de libro excel.")
             
+        Verificador.nom_xlsx(nombre)
+            
         try: 
             self.tabla_salida = self.archivos.unir_csv()
         except:
@@ -203,8 +196,40 @@ class EventosBot:
         self.tabla_salida.to_excel(ruta_arch, index=False)
 
     @staticmethod
+    def sobre():
+        '''Brinda información sobre el programa.'''
+        messagebox.showinfo("CSV-Unificator: Unificador de archivos .csv",
+        "Este programa fue desarrollado como una herramienta para usar en conjunto \
+con el espectrofotómetro Shimadzu UV-1280 del \
+laboratorio de Bioquimica de Arañas del INIBIOLP. \
+Su objetivo es facilitar el manejo del output de datos del equipo, \
+limitado a archivos .csv separados.\n\n\
+\tDesarrollo/Mantenimiento por: \n\tLic. Gabriel Molina - g-abox@hotmail.com\n\n\t\t\
+-- Septiembre, 2023")
+    @staticmethod
     def info():
         '''Información que me pareció relevante ofrecer al usuario.'''
         messagebox.showinfo("Información:", "- Se toma al primer archivo \
 de la carpeta como referencia para la columna inicial de tiempo.\n\n\
 - El título por defecto de esta es: `Time/sec`.")
+
+
+class Verificador():
+    '''
+    Verificacion de campos.
+    '''
+    @staticmethod
+    def nom_xlsx(cadena:str):
+        '''
+        Uso de modulo re para controlar campos.
+        '''
+        # pat_campos = re.compile(r'[$%&/]')
+
+        if re.search(r'[$%&"()#\][/\\]',cadena):
+            messagebox.showwarning("Advertencia", "Introdujo un nómbre no válido \n\
+            Sin caracteres especiales (#, $, /, etc.)")
+            print("excel: alerta - nombre no válido.")
+        else:
+            print("excel: nombre válido")
+            
+        

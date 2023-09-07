@@ -12,7 +12,7 @@ ETIQUETAS = "#EADBD8"
 BOTONES = "#E79A7A"
 
 # Fuentes
-F_TITULO = ("Arial", 14, "bold")
+F_TITULO = ("Arial", 15, "bold")
 F_BOTONES0 = ("Arial", 11)
 
 # Anchos
@@ -32,13 +32,13 @@ class Window:
         
         # Info
         info0 = Label(text=f"Versión:  {VERS}",
-        font= ("Century Gothic", 8, "italic"), bg=ETIQUETAS, pady=0, padx=0, width=50, underline=21)
+        font= ("Century Gothic", 8, "italic"), bg=ETIQUETAS, pady=0, padx=0, width=50)
         info0.place(relx = 0.9, rely = 0.97, anchor="s")       
 
         # Texto instructivo
         instrucciones0 = Label(text="Guardar los .csv en una carpeta (SOLOS)",
-        font= F_TITULO, bg=ETIQUETAS, pady=0, padx=0, width=50, underline=21)
-        instrucciones0.place(relx = 0.5, rely = 0.01, anchor="n")
+        font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=100)
+        instrucciones0.place(relx = 0.26, rely = 0.02, anchor="n")
 
         instrucciones1 = Label(text="Nombre del libro Excel:",
         font= ("Arial", 12, "bold"), bg=ETIQUETAS, pady=0, padx=0, width=25)
@@ -46,7 +46,7 @@ class Window:
         
         instrucciones2 = Label(text="(sin .xlsx)",
         font= ("Arial", 10), bg=ETIQUETAS, pady=4, padx=1, width=25)
-        instrucciones2.place(relx = 0.53, rely = 0.87, anchor="s")
+        instrucciones2.place(relx = 0.54, rely = 0.87, anchor="s")
 
         # Variables entrada/salida
         ruta_carp_cvs_s = StringVar()
@@ -85,10 +85,15 @@ class Window:
         width=33, bg=BOTONES, font=("Arial", 11, "bold"))
         boton_convert.place(relx = 0.01, rely = 0.65)
 
-        boton_info = Button(text="Info primera columna",
+        boton_info = Button(text="Primera columna",
         command=lambda:EventosBot.info(), pady=1, padx=1, height = 1, 
         width=20, bg="#FFD2AA", font=("Arial", 9))
         boton_info.place(relx = 0.2, rely = 0.97, anchor="se")      
+
+        boton_about = Button(text="Sobre CSV-Unificator",
+        command=lambda:EventosBot.sobre(), pady=1, padx=1, height = 1, 
+        width=18, bg="#FAD9BF", font=("Arial", 9))
+        boton_about.place(relx = 0.9, rely = 0.025, anchor="n")
 
         # Eventos de botones
         pedir_csv = EventosBot(ruta_carp_cvs_s, salida_ruta_csv)
