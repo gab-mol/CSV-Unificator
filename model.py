@@ -67,7 +67,7 @@ class Archivos:
         for i in range(len(self.lista_csv)):
             df = pd.read_csv(os.path.join(self.ruta_dir_csv, self.lista_csv[i]), 
                 skiprows=[0], header = None)
-            lista_dfs.append([self.lista_csv[i], df])
+            lista_dfs.append([self.lista_csv[i].replace(".csv",""), df])
         self.lista_dfs = lista_dfs
     
     def verificar_nfilas(self):
