@@ -168,12 +168,23 @@ class EventosBot:
 
         print("\nRUTA ELEGIDA: ", self.strvar.get(),"\n")
     
-    def csv_a_df(self, END):
+    def csv_a_df(self, END, salida_lista_csv):
         '''Recibe ruta a carpeta de csv, y carga a df 
         los mismos.'''
         self.entr_ruta(END)
         self.archivos = Archivos(self.ruta)
         self.archivos.verificar_nfilas()
+
+        # mostrar lista de archivos
+        l_arch = "\n ".join(self.archivos.lista_csv)
+        l_arch = " CSV >> \n Columnas:\n "+ l_arch
+        
+        salida_lista_csv.config(state="normal")
+        salida_lista_csv.delete("1.0", "end")
+        salida_lista_csv.insert(END, l_arch)
+        salida_lista_csv.config(state="disabled")
+
+        
     
 
     def convert(self, ruta_salida:str, nombre:str):

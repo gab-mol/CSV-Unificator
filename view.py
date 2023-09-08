@@ -25,7 +25,7 @@ VERS = os.getenv("VERSION")
 class Window:
     def __init__(self, root_mainloop):
         root = root_mainloop
-        root.geometry("800x330")
+        root.geometry("880x330")
         root.resizable(width=False, height=False)
         root.config(bg=FONDO)
         root.title("CSV-Unificator")
@@ -33,20 +33,20 @@ class Window:
         # Info
         info0 = Label(text=f"Versión:  {VERS}",
         font= ("Century Gothic", 8, "italic"), bg=ETIQUETAS, pady=0, padx=0, width=50)
-        info0.place(relx = 0.9, rely = 0.97, anchor="s")       
+        info0.place(relx = 0.66, rely = 0.97, anchor="s")       
 
         # Texto instructivo
         instrucciones0 = Label(text="Guardar los .csv en una carpeta (SOLOS)",
-        font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=100)
+        font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=110)
         instrucciones0.place(relx = 0.26, rely = 0.02, anchor="n")
 
         instrucciones1 = Label(text="Nombre del libro Excel:",
         font= ("Arial", 12, "bold"), bg=ETIQUETAS, pady=0, padx=0, width=25)
-        instrucciones1.place(relx = 0.63, rely = 0.62, anchor="n")
+        instrucciones1.place(relx = 0.53, rely = 0.62, anchor="n")
         
         instrucciones2 = Label(text="(sin .xlsx)",
         font= ("Arial", 10), bg=ETIQUETAS, pady=4, padx=1, width=25)
-        instrucciones2.place(relx = 0.54, rely = 0.87, anchor="s")
+        instrucciones2.place(relx = 0.47, rely = 0.87, anchor="s")
 
         # Variables entrada/salida
         ruta_carp_cvs_s = StringVar()
@@ -56,27 +56,37 @@ class Window:
         # Entrada nombre
         caja_nomb = Entry(root, textvariable=nombre_xlsx, width=30,
             font=('calibre',12, 'bold'))
-        caja_nomb.place(relx = 0.5, rely = 0.72)
+        caja_nomb.place(relx = 0.43, rely = 0.72)
 
         # Salida de info
-        salida_ruta_csv = Text(root, height = 3, width = 50)
-        salida_ruta_csv.place(relx = 0.45, rely = 0.15)
+        XREL = 0.38
+        TH = 3.4
+        WD = 48
+        salida_ruta_csv = Text(root, height = TH, width = WD)
+        salida_ruta_csv.place(relx = XREL, rely = 0.15)
         salida_ruta_csv.insert(END, "\n   ruta a carpeta con .cvs ..")
         salida_ruta_csv.config(state="disabled")
 
-        salida_ruta_excel = Text(root, height = 3, width = 50)
-        salida_ruta_excel.place(relx = 0.45, rely = 0.4)
+        salida_ruta_excel = Text(root, height = TH, width = WD)
+        salida_ruta_excel.place(relx = XREL, rely = 0.4)
         salida_ruta_excel.insert(END, "\n   ruta salida como .xlsx ..")
         salida_ruta_excel.config(state="disabled")
 
+        salida_lista_csv = Text(root, height = 16.5, width = 17)
+        salida_lista_csv.place(relx = 0.83, rely = 0.15)
+        salida_lista_csv.insert(END, "\n\n\n  Archivos \n  a \n  unir...")
+        salida_lista_csv.config(state="disabled")
+
         # Botones
+        BPY = 5
+        BPX = 4
         boton_rutacvs = Button(text="Buscar carpeta con archivos .cvs", font=F_BOTONES0,
-        command=lambda:pedir_csv.csv_a_df(END), pady=10, padx=5, height = 2, 
+        command=lambda:pedir_csv.csv_a_df(END, salida_lista_csv), pady=BPY, padx=BPX, height = 2, 
         width=BW0, bg=BOTONES)
         boton_rutacvs.place(relx = 0.01, rely = 0.15)
         
         boton_rutasal = Button(text="Elegir salida del libro excel  ", font=F_BOTONES0,
-        command=lambda:ruta_salida.entr_ruta(END), pady=10, padx=5, height = 2, 
+        command=lambda:ruta_salida.entr_ruta(END), pady=BPY, padx=BPX, height = 2, 
         width=BW0, bg=BOTONES)
         boton_rutasal.place(relx = 0.01, rely = 0.4)
 
