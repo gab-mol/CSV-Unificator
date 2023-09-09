@@ -25,7 +25,7 @@ VERS = os.getenv("VERSION")
 class Window:
     def __init__(self, root_mainloop):
         root = root_mainloop
-        root.geometry("880x330")
+        root.geometry("875x367")
         root.resizable(width=False, height=False)
         root.config(bg=FONDO)
         root.title("CSV-Unificator")
@@ -33,12 +33,16 @@ class Window:
         # Info
         info0 = Label(text=f"Versión:  {VERS}",
         font= ("Century Gothic", 8, "italic"), bg=ETIQUETAS, pady=0, padx=0, width=50)
-        info0.place(relx = 0.66, rely = 0.97, anchor="s")       
+        info0.place(relx = 0.76, rely = 0.96, anchor="s")       
 
         # Texto instructivo
-        instrucciones0 = Label(text="Guardar los .csv en una carpeta (SOLOS)",
-        font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=110)
-        instrucciones0.place(relx = 0.26, rely = 0.02, anchor="n")
+        instrucciones0a = Label(text="                                      ", # fondo
+        font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=130)
+        instrucciones0a.place(relx = 0.26, rely = 0.02, anchor="n")
+        
+        instrucciones0b = Label(text="Guardar los .csv en una carpeta (SOLOS)",
+        font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=60)
+        instrucciones0b.place(relx = 0.62, rely = 0.02, anchor="ne")
 
         instrucciones1 = Label(text="Nombre del libro Excel:",
         font= ("Arial", 12, "bold"), bg=ETIQUETAS, pady=0, padx=0, width=25)
@@ -98,7 +102,7 @@ class Window:
         boton_info = Button(text="Primera columna",
         command=lambda:EventosBot.info(), pady=1, padx=1, height = 1, 
         width=20, bg="#FFD2AA", font=("Arial", 9))
-        boton_info.place(relx = 0.2, rely = 0.97, anchor="se")      
+        boton_info.place(relx = 0.2, rely = 0.96, anchor="se")      
 
         boton_about = Button(text="Sobre CSV-Unificator",
         command=lambda:EventosBot.sobre(), pady=1, padx=1, height = 1, 
