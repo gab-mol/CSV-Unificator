@@ -46,14 +46,6 @@ __annotations__ = 'Reescribiendo -01/09/23'
 
 # Clases Modelo ###############
 
-def impr_nfilas(nfilas:list) -> str:
-    '''Para notificar más bonito.'''
-    sal = ""
-    for n in nfilas:
-        sal = sal + (f"\n\t{n}")
-    return sal
-
-
 class Archivos:
     '''Métodos para carga y procesado de archivos.'''
     def __init__(self, ruta_dir_csv) -> None:
@@ -119,22 +111,34 @@ class Archivos:
             #########################    
             else:
                 # Informar sobre archivos problemáticos
-                conflictos_i = []
+                conflictos_iyl = []
                 i = 0
                 for l in largos:
                     print(self.lista_csv[i], l, largos_unicos[i_mayor])
                     if l != largos_unicos[i_mayor]:
-                        conflictos_i.append(i)
+                        conflictos_iyl.append([i, l])
                     i += 1
 
                 conflictos_n = []
-                for i in conflictos_i:
-                    conflictos_n.append(self.lista_csv[i])
+                for i in conflictos_iyl:
+                    conflictos_n.append([self.lista_csv[i[0]], i[1]])
                 print("¡¡¡Hay archivos con distinto número de fila!!!")
                 print("Largos:", largos_unicos)
                 print("Revisar:", conflictos_n)
+                
+                # formateo de aviso..
+                largos_unicos_str = []
+                for n in largos_unicos:
+                    largos_unicos_str.append(str(n))
+                largos_unicos_str = "\n ".join(largos_unicos_str)
+                conflictos_n_str = []
+                for conf in conflictos_n:
+                    conflictos_n_str.append(conf[0]+" ("+str(conf[1])+")")
+                conflictos_n_str = "\n ".join(conflictos_n_str)
+                
                 messagebox.showerror("Inconsistencia en N° filas",
-                    f"\nN° filas registrados: {largos_unicos} \n\nREVISAR: {impr_nfilas(conflictos_n)}")
+                    f"\nN° filas registrados:\n {largos_unicos_str} \n (Siendo: {largos_unicos[i_mayor]} el más común)\n\n\
+REVISAR:\n {conflictos_n_str}")
     
     def unir_csv(self):
         '''Crea la tabla conjunta 
@@ -241,7 +245,7 @@ de la carpeta como referencia para la columna inicial de tiempo.\n\n\
 
 class Verificador():
     '''
-    Verificacion de campos.
+    Verificación de cadenas. En campos, en nombres de archivos, en celdas (proximamente).
     '''
     @staticmethod
     def nom_xlsx(cadena:str):
@@ -257,6 +261,7 @@ class Verificador():
         else:
             print("excel: nombre válido")
     
+    @staticmethod
     def limp_nocsv(lista_csv:list) -> list:
         '''Elimina de la lista de archivos los que no terminan en `.csv`\n
         Notifica los nombres eliminados.'''
@@ -276,5 +281,7 @@ class Verificador():
             messagebox.showwarning("AVISO:", 
                 f"Se ignoraron archivos no .cvs:\n\n{a_rm_str}")
         return lista_csv
-            
-        
+    
+    def prim_col(*args):
+        '''Revisa consistencia de tiempos en primera columna de archivos'''
+        ...
