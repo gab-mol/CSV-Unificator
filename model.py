@@ -69,21 +69,7 @@ class Archivos:
             raise Exception("No se recuperaron archivos de directorio seleccionado")
         
         # limpiar de no-.csv
-        a_rm = []
-        for n in self.lista_csv:
-            if not re.search(r"^.+\.csv$",n):
-                a_rm.append(n)
-                self.lista_csv.remove(n)
-                print(n,"descartado")
-            else:
-                print(n,"aprobado")
-        
-        if a_rm != []:
-            print("lista final: ",self.lista_csv)
-            print("Descartados:",a_rm)
-            a_rm_str = "\n ".join(a_rm)
-            messagebox.showwarning("AVISO:", 
-                f"Se ignoraron archivos no .cvs:\n\n{a_rm_str}")
+        self.lista_csv = Verificador.limp_nocsv(self.lista_csv)
         
         # Carga todos los csv en: [[nombre.csv, dataframe], ..n]
         lista_dfs = []
@@ -270,5 +256,25 @@ class Verificador():
             print("excel: alerta - nombre no válido.")
         else:
             print("excel: nombre válido")
+    
+    def limp_nocsv(lista_csv:list) -> list:
+        '''Elimina de la lista de archivos los que no terminan en `.csv`\n
+        Notifica los nombres eliminados.'''
+        a_rm = []
+        for n in lista_csv:
+            if not re.search(r"^.+\.csv$",n):
+                a_rm.append(n)
+                lista_csv.remove(n)
+                print(n,"descartado")
+            else:
+                print(n,"aprobado")
+        
+        if a_rm != []:
+            print("lista final: ",lista_csv)
+            print("Descartados:",a_rm)
+            a_rm_str = "\n ".join(a_rm)
+            messagebox.showwarning("AVISO:", 
+                f"Se ignoraron archivos no .cvs:\n\n{a_rm_str}")
+        return lista_csv
             
         
