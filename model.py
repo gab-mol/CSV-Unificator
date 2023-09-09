@@ -171,6 +171,7 @@ class Archivos:
         
         return tabla_salida
 
+
 class EventosBot:
     '''Acciones de los botones'''
     def __init__(self, strvar, sal_tex) -> None:
@@ -207,13 +208,11 @@ class EventosBot:
         salida_lista_csv.insert(END, l_arch)
         salida_lista_csv.config(state="disabled")
 
-        
-    
-
     def convert(self, ruta_salida:str, nombre:str):
         if nombre == "":
-            messagebox.showerror("Falta nombre de archivo", 
+            messagebox.showwarning("Falta nombre de archivo", 
                 "Especificar nombre de libro excel.")
+            raise Exception("Sin nombre")
             
         Verificador.nom_xlsx(nombre)
             
@@ -227,7 +226,13 @@ class EventosBot:
         print("salida: " + ruta_salida)
 
         # Creación de archivo .xlsx
-        self.tabla_salida.to_excel(ruta_arch, index=False)
+        try:
+            self.tabla_salida.to_excel(ruta_arch, index=False)
+        except:
+            messagebox.showerror("ERROR", 
+                "No fue posible crear el archivo excel")
+            raise Exception("Falla en creacción de archivo .xlsx")
+        messagebox.showinfo("Aviso",f"\nLibro excel '{nombre}' creado exitosamente")
 
     @staticmethod
     def sobre():
