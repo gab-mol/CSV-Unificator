@@ -62,7 +62,30 @@ class Archivos:
         self.ruta_dir_csv = ruta_dir_csv
         self.lista_csv = os.listdir(self.ruta_dir_csv)
         
-        '''Carga todos los csv en: [[nombre.csv, dataframe], ..n]'''
+        # aviso carpeta vacía
+        if self.lista_csv == []:
+            messagebox.showwarning("Problema con carpeta de archivos:",
+                "\nCarpeta seleccionada vacía.")
+            raise Exception("No se recuperaron archivos de directorio seleccionado")
+        
+        # limpiar de no-.csv
+        a_rm = []
+        for n in self.lista_csv:
+            if not re.search(r"^.+\.csv$",n):
+                a_rm.append(n)
+                self.lista_csv.remove(n)
+                print(n,"descartado")
+            else:
+                print(n,"aprobado")
+        
+        if a_rm != []:
+            print("lista final: ",self.lista_csv)
+            print("Descartados:",a_rm)
+            a_rm_str = "\n ".join(a_rm)
+            messagebox.showwarning("AVISO:", 
+                f"Se ignoraron archivos no .cvs:\n\n{a_rm_str}")
+        
+        # Carga todos los csv en: [[nombre.csv, dataframe], ..n]
         lista_dfs = []
         for i in range(len(self.lista_csv)):
             df = pd.read_csv(os.path.join(self.ruta_dir_csv, self.lista_csv[i]), 
