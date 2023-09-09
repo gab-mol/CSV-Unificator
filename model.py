@@ -61,17 +61,17 @@ class Archivos:
             raise Exception("No se recuperaron archivos de directorio seleccionado")
         
         # limpiar de no-.csv
-        self.lista_csv = Verificador.limp_nocsv(self.lista_csv)
+        self.lista_csv_v = Verificador.limp_nocsv(self.lista_csv)
         
         # Carga todos los csv en: [[nombre.csv, dataframe], ..n]
         lista_dfs = []
-        for i in range(len(self.lista_csv)):
-            df = pd.read_csv(os.path.join(self.ruta_dir_csv, self.lista_csv[i]), 
+        for i in range(len(self.lista_csv_v)):
+            df = pd.read_csv(os.path.join(self.ruta_dir_csv, self.lista_csv_v[i]), 
                 skiprows=[0], header = None)
-            lista_dfs.append([self.lista_csv[i].replace(".csv",""), df])
+            lista_dfs.append([self.lista_csv_v[i].replace(".csv",""), df])
         self.lista_dfs = lista_dfs
     
-    def verificar_nfilas(self):
+    def verificar_nfilas(self, END, salida_lista_csv):
         '''Avisar al usuario si no todos los csv tienen el mismo largo.
         NOTA: esto pasa cuando se varió el tiempo de ensayo durante el mismo.'''
         largos = []
@@ -105,9 +105,18 @@ class Archivos:
             
             if j > 1: 
                 print("ERROR: MUCHOS ARCHIVOS CON DISTINTO N° DE FILAS")
+                
+                salida_lista_csv.config(state="normal")
+                salida_lista_csv.delete("1.0", "end")
+                salida_lista_csv.insert(END, "\n\n\n...\nEsperando\nque el usuario\n\
+resuelva\ninconsistencia\nen los archivos\n...")
+                salida_lista_csv.config(state="disabled")
+                
                 messagebox.showerror("Inconsistencia en N° filas", 
                     "Conflicto: revisar los archivos, probablemente se hayan \
                     realizado medidas a tiempos distintos")
+                
+                raise Exception("Archivos con distinto n° de filas EN PROPORCIONES IDÉNTICAS")
             #########################    
             else:
                 # Informar sobre archivos problemáticos
@@ -126,6 +135,11 @@ class Archivos:
                 print("Largos:", largos_unicos)
                 print("Revisar:", conflictos_n)
                 
+                salida_lista_csv.config(state="normal")
+                salida_lista_csv.delete("1.0", "end")
+                salida_lista_csv.insert(END, "\n\n\n...\nEsperando\nque el usuario\n\
+resuelva\ninconsistencia\nen los archivos\n...")
+                salida_lista_csv.config(state="disabled")
                 # formateo de aviso..
                 largos_unicos_str = []
                 for n in largos_unicos:
@@ -139,11 +153,15 @@ class Archivos:
                 messagebox.showerror("Inconsistencia en N° filas",
                     f"\nN° filas registrados:\n {largos_unicos_str} \n (Siendo: {largos_unicos[i_mayor]} el más común)\n\n\
 REVISAR:\n {conflictos_n_str}")
+                raise Exception("Archivos con distinto n° de filas")
     
     def unir_csv(self):
         '''Crea la tabla conjunta 
         NOTA: recordar que deben tener = nfilas'''
 
+        # revisar columnas de tiempo (NO funcional)
+        Verificador.prim_col(self.lista_dfs, self.lista_csv)
+        
         # ruta al primer archivo
         csv0 = self.lista_dfs[0]
         t0 = csv0[1]
@@ -187,11 +205,11 @@ class EventosBot:
         los mismos.'''
         self.entr_ruta(END)
         self.archivos = Archivos(self.ruta)
-        self.archivos.verificar_nfilas()
+        self.archivos.verificar_nfilas(END, salida_lista_csv)
 
         # mostrar lista de archivos
         l_arch = "\n ".join(self.archivos.lista_csv)
-        l_arch = " CSV >> \n Columnas:\n "+ l_arch
+        l_arch = "-- CSV a unir --\n "+ l_arch
         
         salida_lista_csv.config(state="normal")
         salida_lista_csv.delete("1.0", "end")
@@ -252,12 +270,10 @@ class Verificador():
         '''
         Uso de modulo re para controlar campos.
         '''
-        # pat_campos = re.compile(r'[$%&/]')
-
-        if re.search(r'[$%&"()#\][/\\]',cadena):
+        if re.search(r'[$%&"\'()¡!¿?#\][/\\]',cadena):
             messagebox.showwarning("Advertencia", "Introdujo un nómbre no válido \n\
             Sin caracteres especiales (#, $, /, etc.)")
-            print("excel: alerta - nombre no válido.")
+            raise Exception("Nombre con caracteres especiales.")
         else:
             print("excel: nombre válido")
     
@@ -265,23 +281,36 @@ class Verificador():
     def limp_nocsv(lista_csv:list) -> list:
         '''Elimina de la lista de archivos los que no terminan en `.csv`\n
         Notifica los nombres eliminados.'''
+        print("LISTA:")
         a_rm = []
+        lista_csv_sal = []
         for n in lista_csv:
-            if not re.search(r"^.+\.csv$",n):
-                a_rm.append(n)
-                lista_csv.remove(n)
-                print(n,"descartado")
-            else:
+            if re.search(r"^.+\.csv$",n):
+                lista_csv_sal.append(n)
                 print(n,"aprobado")
-        
+            else:
+                a_rm.append(n)
+                print(n,"descartado")
         if a_rm != []:
-            print("lista final: ",lista_csv)
+            print("lista final: ",lista_csv_sal)
             print("Descartados:",a_rm)
             a_rm_str = "\n ".join(a_rm)
             messagebox.showwarning("AVISO:", 
-                f"Se ignoraron archivos no .cvs:\n\n{a_rm_str}")
-        return lista_csv
+                f"Se ignoraron archivos no .cvs:\n {a_rm_str}")
+        return lista_csv_sal
     
-    def prim_col(*args):
+    @staticmethod
+    def prim_col(lista_dfs:list[list], lista_nombres:list):
         '''Revisa consistencia de tiempos en primera columna de archivos'''
-        ...
+        lista_col0s = []
+        for l in lista_dfs:
+            lista_col0s.append(l[1].iloc[:,0])
+        
+        i_lista_col0s = []
+        for i in range(len(lista_col0s)):
+            for j in range(i+1,len(lista_col0s)):
+                if lista_col0s[i] == lista_col0s[j]:
+                    print(lista_nombres[i], lista_nombres[j],"aprob")
+                else:
+                    print(lista_nombres[i], lista_nombres[j],"ERROR")
+        
