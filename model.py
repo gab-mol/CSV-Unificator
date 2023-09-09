@@ -160,7 +160,7 @@ REVISAR:\n {conflictos_n_str}")
         NOTA: recordar que deben tener = nfilas'''
 
         # revisar columnas de tiempo (NO funcional)
-        Verificador.prim_col(self.lista_dfs, self.lista_csv)
+        Verificador.prim_col(self.lista_dfs, self.lista_csv_v)
         
         # ruta al primer archivo
         csv0 = self.lista_dfs[0]
@@ -222,12 +222,12 @@ class EventosBot:
                 "Especificar nombre de libro excel.")
             raise Exception("Sin nombre")
             
-        Verificador.nom_xlsx(nombre)
+        Verificador.nom_xlsx(nombre, self.archivos.lista_csv)
             
         try: 
             self.tabla_salida = self.archivos.unir_csv()
         except:
-            messagebox.showerror("ERROR","Algo falló en conversión")
+            messagebox.showerror("ERROR","Algo falló en conversión.")
             raise Exception("Error de conversión")
 
         ruta_arch = os.path.join(ruta_salida, f"{nombre}.xlsx")
@@ -266,9 +266,9 @@ class Verificador():
     Verificación de cadenas. En campos, en nombres de archivos, en celdas (proximamente).
     '''
     @staticmethod
-    def nom_xlsx(cadena:str):
+    def nom_xlsx(cadena:str, lista_dir:list[str]):
         '''
-        Uso de modulo re para controlar campos.
+        Uso de modulo re para controlar campos, y consultar posible reescritura.
         '''
         if re.search(r'[$%&"\'()¡!¿?#\][/\\]',cadena):
             messagebox.showwarning("Advertencia", "Introdujo un nómbre no válido \n\
@@ -276,6 +276,12 @@ class Verificador():
             raise Exception("Nombre con caracteres especiales.")
         else:
             print("excel: nombre válido")
+            if (cadena+".xlsx") in lista_dir:
+                res = messagebox.askquestion("Advertencia", 
+                    "Introdujo un nombre ya presente en la carpeta que seleccionó ¿Sobrescribir?")
+                if res != "yes":raise Exception("Usuario abortó el proceso antes de sobrescribir.")
+            
+    
     
     @staticmethod
     def limp_nocsv(lista_csv:list) -> list:
@@ -305,12 +311,13 @@ class Verificador():
         lista_col0s = []
         for l in lista_dfs:
             lista_col0s.append(l[1].iloc[:,0])
+        print(lista_col0s[0])
         
-        i_lista_col0s = []
-        for i in range(len(lista_col0s)):
-            for j in range(i+1,len(lista_col0s)):
-                if lista_col0s[i] == lista_col0s[j]:
-                    print(lista_nombres[i], lista_nombres[j],"aprob")
-                else:
-                    print(lista_nombres[i], lista_nombres[j],"ERROR")
+        # i_lista_col0s = []
+        # for i in range(len(lista_col0s)):
+        #     for j in range(i+1,len(lista_col0s)):
+        #         if lista_col0s[i] == lista_col0s[j]:
+        #             print(lista_nombres[i], lista_nombres[j],"aprob")
+        #         else:
+        #             print(lista_nombres[i], lista_nombres[j],"ERROR")
         
