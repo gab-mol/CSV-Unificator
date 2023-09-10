@@ -39,9 +39,9 @@ load_dotenv()
 __author__ = "Gabriel Molina"
 __maintainer__ = "Gabriel Molina"
 __email__ = "g-abox@hotmail.com"
-__version__ = os.getenv("VERSION")
+__version__ = "Alfa-01" # no es práctico usar el .env ni tiene mucho sentido
 __copyright__ = f"Copyright {HoFe.fecha()}"
-__annotations__ = 'Trabajando en verificador de primera columna (t)'
+__annotations__ = 'Revisando. Alfa01 acabada'
 
 
 # Clases Modelo ###############
