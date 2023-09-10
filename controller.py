@@ -3,7 +3,7 @@
 import tkinter
 
 import view
-from model import __version__, __copyright__
+from model import __version__, __copyright__, __annotations__
 
 class Launcher:
     '''

@@ -155,12 +155,12 @@ resuelva\ninconsistencia\nen los archivos\n...")
 el más común)\n\nREVISAR:\n {conflictos_n_str}")
                 raise Exception("Archivos con distinto n° de filas")
     
-    def unir_csv(self):
+    def unir_csv(self,ruta_salida):
         '''Crea la tabla conjunta 
         NOTA: recordar que deben tener = nfilas'''
 
         # revisar columnas de tiempo (NO funcional)
-        Verificador.prim_col(self.lista_dfs, self.lista_csv_v)
+        Verificador.prim_col(self.lista_dfs, self.lista_csv_v, ruta_salida)
         
         # ruta al primer archivo
         csv0 = self.lista_dfs[0]
@@ -225,7 +225,7 @@ class EventosBot:
         Verificador.nom_xlsx(nombre, self.archivos.lista_csv)
             
         try: 
-            self.tabla_salida = self.archivos.unir_csv()
+            self.tabla_salida = self.archivos.unir_csv(ruta_salida)
         except:
             messagebox.showerror("ERROR","Algo falló en conversión.")
             raise Exception("Error de conversión")
@@ -306,7 +306,7 @@ class Verificador():
         return lista_csv_sal
     
     @staticmethod
-    def prim_col(lista_dfs:list[list], lista_nombres:list):
+    def prim_col(lista_dfs:list[list], lista_nombres:list,ruta_salida):
         '''Revisa consistencia de tiempos en primera columna de archivos'''
         lista_col0s = []
         for l in lista_dfs:
@@ -320,4 +320,20 @@ class Verificador():
         
                 i_lista_col0s.append([lista_nombres[i], lista_nombres[j], i_fal])
         
-        print(i_lista_col0s)
+        # usar expresión de compresión de listas para separar listas de errores
+        if [] in [err for n0, n1, err in i_lista_col0s]:
+            inconsist = [[n0, n1, err] for n0, n1, err in i_lista_col0s if err != []]
+            res = messagebox.askquestion("Advertencia sobre filas de tiempo",
+            "Si bien todas las columnas de tiempo tienen el mismo largo, no todas sus celdas son iguales\n\
+Recuerde que se usa el primer archivo como referencia.\n\n\n\
+¿Guardar también lista de comparaciones entre csv y n° de filas en conflicto?\n(se junto al excel)")
+            if res == "yes":
+                ruta=os.path.join(ruta_salida,"CSV-Unif_inconsistencias_"+HoFe.fecha()+".txt")
+                print("SE GUARDA .TXT ACÁ:\n",ruta)
+                with open(ruta, "w") as inform:
+                    inform.write(f"CSV-Unificator | Informe de inconsistencias entre filas de tiempo\n\
+{HoFe.hora()} del {HoFe.fecha()}\n\nSe enumera: par de archivos comparados / número de fila en conflicto\n\n")
+                    for error in inconsist:
+                        form = [str(i) for i in error[2]]
+                        inform.write("Entre "+error[0]+" y "+error[1]+" -> Diferencias en filas n°: "+", ".join(form)+"\n")
+                
