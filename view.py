@@ -4,7 +4,7 @@ from tkinter import Label, StringVar, Button, Entry, Text, END
 from dotenv import load_dotenv
 import os
 
-from model import EventosBot
+from model import EventosBot, __version__
 
 # colores
 FONDO = "#EADBD8"
@@ -20,7 +20,7 @@ BW0 = 32
 
 # Variables de entorno
 load_dotenv()
-VERS = os.getenv("VERSION")
+VERS = __version__
 
 class Window:
     def __init__(self, root_mainloop):
