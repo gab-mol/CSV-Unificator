@@ -41,7 +41,7 @@ __maintainer__ = "Gabriel Molina"
 __email__ = "g-abox@hotmail.com"
 __version__ = os.getenv("VERSION")
 __copyright__ = f"Copyright {HoFe.fecha()}"
-__annotations__ = 'Reescribiendo -01/09/23'
+__annotations__ = 'Trabajando en verificador de primera columna (t)'
 
 
 # Clases Modelo ###############
@@ -151,8 +151,8 @@ resuelva\ninconsistencia\nen los archivos\n...")
                 conflictos_n_str = "\n ".join(conflictos_n_str)
                 
                 messagebox.showerror("Inconsistencia en N° filas",
-                    f"\nN° filas registrados:\n {largos_unicos_str} \n (Siendo: {largos_unicos[i_mayor]} el más común)\n\n\
-REVISAR:\n {conflictos_n_str}")
+                    f"\nN° filas registrados:\n {largos_unicos_str} \n (Siendo: {largos_unicos[i_mayor]} \
+el más común)\n\nREVISAR:\n {conflictos_n_str}")
                 raise Exception("Archivos con distinto n° de filas")
     
     def unir_csv(self):
@@ -208,7 +208,7 @@ class EventosBot:
         self.archivos.verificar_nfilas(END, salida_lista_csv)
 
         # mostrar lista de archivos
-        l_arch = "\n ".join(self.archivos.lista_csv)
+        l_arch = "\n ".join(self.archivos.lista_csv_v)
         l_arch = "-- CSV a unir --\n "+ l_arch
         
         salida_lista_csv.config(state="normal")
@@ -311,13 +311,13 @@ class Verificador():
         lista_col0s = []
         for l in lista_dfs:
             lista_col0s.append(l[1].iloc[:,0])
-        print(lista_col0s[0])
         
-        # i_lista_col0s = []
-        # for i in range(len(lista_col0s)):
-        #     for j in range(i+1,len(lista_col0s)):
-        #         if lista_col0s[i] == lista_col0s[j]:
-        #             print(lista_nombres[i], lista_nombres[j],"aprob")
-        #         else:
-        #             print(lista_nombres[i], lista_nombres[j],"ERROR")
+        i_lista_col0s = []
+        for i in range(len(lista_col0s)):
+            for j in range(i+1,len(lista_col0s)):
+                comp = list(lista_col0s[i]==lista_col0s[j])
+                i_fal = [i for i, v in enumerate(comp) if v == False]
         
+                i_lista_col0s.append([lista_nombres[i], lista_nombres[j], i_fal])
+        
+        print(i_lista_col0s)
