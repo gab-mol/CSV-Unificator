@@ -42,7 +42,7 @@ class Window:
         
         instrucciones0b = Label(text="Guardar los .csv en una carpeta (SOLOS)",
         font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=60)
-        instrucciones0b.place(relx = 0.62, rely = 0.02, anchor="ne")
+        instrucciones0b.place(relx = 0.65, rely = 0.02, anchor="ne")
 
         instrucciones1 = Label(text="Nombre del libro Excel:",
         font= ("Arial", 12, "bold"), bg=ETIQUETAS, pady=0, padx=0, width=25)

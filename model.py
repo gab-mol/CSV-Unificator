@@ -12,7 +12,7 @@ import os
 import time
 # import shutil
 import pandas as pd
-from tkinter import filedialog, messagebox
+from tkinter import filedialog, messagebox, simpledialog
 import re
 
 class HoFe:
@@ -39,10 +39,13 @@ load_dotenv()
 __author__ = "Gabriel Molina"
 __maintainer__ = "Gabriel Molina"
 __email__ = "g-abox@hotmail.com"
-__version__ = "Alfa-01" # no es práctico usar el .env ni tiene mucho sentido
+__version__ = "Beta"
 __copyright__ = f"Copyright {HoFe.fecha()}"
-__annotations__ = 'Revisando. Alfa01 acabada'
+__annotations__ = 'Beta: Test y pulido GUI.'
 
+# Nombre de primera columna
+global nom_col0
+nom_col0 = "Time/sec"
 
 # Clases Modelo ###############
 
@@ -166,7 +169,7 @@ el más común)\n\nREVISAR:\n {conflictos_n_str}")
         csv0 = self.lista_dfs[0]
         t0 = csv0[1]
         tabla_salida = t0.drop(t0.columns[[1]], axis=1)
-        tabla_salida.columns = ["Time/sec"]
+        tabla_salida.columns = [nom_col0]
         for l in self.lista_dfs:
             df = l[1].drop(labels=0, axis=0)
             df = df.drop(df.columns[[0]], axis=1)
@@ -245,7 +248,7 @@ class EventosBot:
     @staticmethod
     def sobre():
         '''Brinda información sobre el programa.'''
-        messagebox.showinfo("CSV-Unificator: Unificador de archivos .csv",
+        messagebox.showinfo(f"CSV-Unificator: Unificador de archivos .csv | vers.: {__version__}",
         "Este programa fue desarrollado como una herramienta para usar en conjunto \
 con el espectrofotómetro Shimadzu UV-1280 del \
 laboratorio de Bioquimica de Arañas del INIBIOLP. \
@@ -253,12 +256,17 @@ Su objetivo es facilitar el manejo del output de datos del equipo, \
 limitado a archivos .csv separados.\n\n\
 \tDesarrollo/Mantenimiento por: \n\tLic. Gabriel Molina - g-abox@hotmail.com\n\n\t\t\
 -- Septiembre, 2023")
+        
     @staticmethod
     def info():
         '''Información que me pareció relevante ofrecer al usuario.'''
-        messagebox.showinfo("Información:", "- Se toma al primer archivo \
-de la carpeta como referencia para la columna inicial de tiempo.\n\n\
-- El título por defecto de esta es: `Time/sec`.")
+        res = messagebox.askquestion("Primera col. (tiempo medida):", "\n\t- Se toma al primer archivo \
+de la carpeta como referencia para la columna inicial de tiempo.\n\t- Nombre por defecto es `Time/sec`.\n\n\
+¿Desea cambiarlo?")
+        if res == "yes":
+            global nom_col0
+            nom_col0 = simpledialog.askstring(title="Cambiar nombre Primera Col.",
+            prompt="Introduzca el título que desee:")
 
 
 class Verificador():
@@ -280,8 +288,6 @@ class Verificador():
                 res = messagebox.askquestion("Advertencia", 
                     "Introdujo un nombre ya presente en la carpeta que seleccionó ¿Sobrescribir?")
                 if res != "yes":raise Exception("Usuario abortó el proceso antes de sobrescribir.")
-            
-    
     
     @staticmethod
     def limp_nocsv(lista_csv:list) -> list:
@@ -321,7 +327,7 @@ class Verificador():
                 i_lista_col0s.append([lista_nombres[i], lista_nombres[j], i_fal])
         
         # usar expresión de compresión de listas para separar listas de errores
-        if [] in [err for n0, n1, err in i_lista_col0s]:
+        if [] not in [err for n0, n1, err in i_lista_col0s]:
             inconsist = [[n0, n1, err] for n0, n1, err in i_lista_col0s if err != []]
             res = messagebox.askquestion("Advertencia sobre filas de tiempo",
             "Si bien todas las columnas de tiempo tienen el mismo largo, no todas sus celdas son iguales\n\
