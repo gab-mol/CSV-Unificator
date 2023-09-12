@@ -326,9 +326,10 @@ class Verificador():
         
                 i_lista_col0s.append([lista_nombres[i], lista_nombres[j], i_fal])
         
-        print(i_lista_col0s)
-        # usar expresión de compresión de listas para separar listas de errores
-        if [] not in [err for n0, n1, err in i_lista_col0s]:
+        #  Usar expresión de compresión de listas para separar listas de errores,
+        # si esas listas están todas vecías (sin errores), la suma de sus largos 
+        # tiene que ser 0
+        if sum([len(err) for n0, n1, err in i_lista_col0s]) != 0:
             inconsist = [[n0, n1, err] for n0, n1, err in i_lista_col0s if err != []]
             res = messagebox.askquestion("Advertencia sobre filas de tiempo",
             "Si bien todas las columnas de tiempo tienen el mismo largo, no todas sus celdas son iguales\n\
