@@ -1,6 +1,6 @@
 '''CSV-Unificator: vista'''
 
-from tkinter import Label, StringVar, Button, Entry, Text, END
+from tkinter import Label, StringVar, Button, Entry, Text, END, PhotoImage
 from dotenv import load_dotenv
 import os
 
@@ -31,6 +31,7 @@ class Window:
         root.resizable(width=False, height=False)
         root.config(bg=FONDO)
         root.title("CSV-Unificator")
+        root.iconphoto(True,PhotoImage(file=os.path.join(os. getcwd(),"icoTR.png")))
         
         # Info
         info0 = Label(text=f"Versión:  {VERS}",
