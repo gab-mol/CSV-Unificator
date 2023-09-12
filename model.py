@@ -39,7 +39,7 @@ load_dotenv()
 __author__ = "Gabriel Molina"
 __maintainer__ = "Gabriel Molina"
 __email__ = "g-abox@hotmail.com"
-__version__ = "1.0"
+__version__ = "Pre-Release-1.0"
 __copyright__ = f"Copyright {HoFe.fecha()}"
 __annotations__ = 'Desarrollo concluído.'
 

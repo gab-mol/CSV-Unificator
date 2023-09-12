@@ -31,6 +31,7 @@ class Window:
         root.resizable(width=False, height=False)
         root.config(bg=FONDO)
         root.title("CSV-Unificator")
+        '''Estudiar como usar strings para codificar imágenes'''
         #root.iconphoto(True,PhotoImage(file=os.path.join(os. getcwd(),"icoTR.png")))
         
         # Info
