@@ -31,7 +31,7 @@ class Window:
         root.resizable(width=False, height=False)
         root.config(bg=FONDO)
         root.title("CSV-Unificator")
-        root.iconphoto(True,PhotoImage(file=os.path.join(os. getcwd(),"icoTR.png")))
+        #root.iconphoto(True,PhotoImage(file=os.path.join(os. getcwd(),"icoTR.png")))
         
         # Info
         info0 = Label(text=f"Versión:  {VERS}",
