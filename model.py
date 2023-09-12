@@ -39,9 +39,9 @@ load_dotenv()
 __author__ = "Gabriel Molina"
 __maintainer__ = "Gabriel Molina"
 __email__ = "g-abox@hotmail.com"
-__version__ = "Beta"
+__version__ = "1.0"
 __copyright__ = f"Copyright {HoFe.fecha()}"
-__annotations__ = 'Beta: Test y pulido GUI.'
+__annotations__ = 'Desarrollo concluído.'
 
 # Nombre de primera columna
 global nom_col0

@@ -1,5 +1,5 @@
 # CSV-Unificator
-> Versión: Beta | 10/9/2023
+> Versión: 1.0 | 12/09/2023
 ## Herramienta para fusionar múltiples archivos .csv
 El fin último de este sofware es lidiar con el inconveniente que supone la salida de datos del espectrofotómetro *Shimadzu®* del laboratorio.  
   
@@ -9,5 +9,6 @@ Python versión: **3.10.6**
 
 ---
 _Gabriel Molina,_  
-_-- inicio desarrollo: 31/08/23_
-_-- Alfa-00: 7/9/2023_
+_-- inicio desarrollo: 31/08/23_  
+_-- Alfa-00: 7/09/2023_  
+_-- 1.0: 12/09/2023_
