@@ -10,6 +10,8 @@ from model import EventosBot, __version__
 FONDO = "#EADBD8"
 ETIQUETAS = "#EADBD8"
 BOTONES = "#E79A7A"
+BOTONES2 = "#F5B59A"
+TEXTO = "#F1B9AC"
 
 # Fuentes
 F_TITULO = ("Arial", 15, "bold")
@@ -33,11 +35,11 @@ class Window:
         # Info
         info0 = Label(text=f"Versión:  {VERS}",
         font= ("Century Gothic", 8, "italic"), bg=ETIQUETAS, pady=0, padx=0, width=50)
-        info0.place(relx = 0.76, rely = 0.96, anchor="s")       
+        info0.place(relx = 0.74, rely = 0.96, anchor="s")       
 
         # Texto instructivo
         instrucciones0a = Label(text="                                      ", # fondo
-        font= F_TITULO, bg="#EAB2A6", pady=0, padx=0, width=130)
+        font= F_TITULO, bg="#EAB2A6", pady=1, padx=0, width=130, height=1)
         instrucciones0a.place(relx = 0.26, rely = 0.02, anchor="n")
         
         instrucciones0b = Label(text="Guardar los .csv en una carpeta (SOLOS)",
@@ -46,11 +48,11 @@ class Window:
 
         instrucciones1 = Label(text="Nombre del libro Excel:",
         font= ("Arial", 12, "bold"), bg=ETIQUETAS, pady=0, padx=0, width=25)
-        instrucciones1.place(relx = 0.53, rely = 0.62, anchor="n")
+        instrucciones1.place(relx = 0.48, rely = 0.55, anchor="n")
         
         instrucciones2 = Label(text="(sin .xlsx)",
         font= ("Arial", 10), bg=ETIQUETAS, pady=4, padx=1, width=25)
-        instrucciones2.place(relx = 0.47, rely = 0.87, anchor="s")
+        instrucciones2.place(relx = 0.3, rely = 0.7)
 
         # Variables entrada/salida
         ruta_carp_cvs_s = StringVar()
@@ -58,25 +60,25 @@ class Window:
         nombre_xlsx = StringVar()
 
         # Entrada nombre
-        caja_nomb = Entry(root, textvariable=nombre_xlsx, width=30,
-            font=('calibre',12, 'bold'))
-        caja_nomb.place(relx = 0.43, rely = 0.72)
+        caja_nomb = Entry(root, textvariable=nombre_xlsx, width=33,
+            font=('calibre', 14, 'bold'))
+        caja_nomb.place(relx = 0.38, rely = 0.64)
 
         # Salida de info
         XREL = 0.38
         TH = 3.4
-        WD = 48
-        salida_ruta_csv = Text(root, height = TH, width = WD)
+        WD = 46
+        salida_ruta_csv = Text(root, height = TH, width = WD, bg=TEXTO)
         salida_ruta_csv.place(relx = XREL, rely = 0.15)
         salida_ruta_csv.insert(END, "\n   ruta a carpeta con .cvs ..")
         salida_ruta_csv.config(state="disabled")
 
-        salida_ruta_excel = Text(root, height = TH, width = WD)
-        salida_ruta_excel.place(relx = XREL, rely = 0.4)
+        salida_ruta_excel = Text(root, height = TH, width = WD, bg=TEXTO)
+        salida_ruta_excel.place(relx = XREL, rely = 0.35)
         salida_ruta_excel.insert(END, "\n   ruta salida como .xlsx ..")
         salida_ruta_excel.config(state="disabled")
 
-        salida_lista_csv = Text(root, height = 16.5, width = 17)
+        salida_lista_csv = Text(root, height = 18, width = 17, bg=TEXTO)
         salida_lista_csv.place(relx = 0.83, rely = 0.15)
         salida_lista_csv.insert(END, "\n\n\n  Archivos \n  a \n  unir...")
         salida_lista_csv.config(state="disabled")
@@ -92,22 +94,23 @@ class Window:
         boton_rutasal = Button(text="Elegir salida del libro excel  ", font=F_BOTONES0,
         command=lambda:ruta_salida.entr_ruta(END), pady=BPY, padx=BPX, height = 2, 
         width=BW0, bg=BOTONES)
-        boton_rutasal.place(relx = 0.01, rely = 0.4)
+        boton_rutasal.place(relx = 0.01, rely = 0.35)
 
         boton_convert = Button(text="> Convertir archivos <",
-        command=lambda:pedir_csv.convert(ruta_xlsx_s.get(), nombre_xlsx.get()), pady=5, padx=1, height = 2, 
+        command=lambda:pedir_csv.convert(ruta_xlsx_s.get(), nombre_xlsx.get()), pady=5, 
+        padx=0, height = 2, 
         width=33, bg=BOTONES, font=("Arial", 11, "bold"))
-        boton_convert.place(relx = 0.01, rely = 0.65)
+        boton_convert.place(relx = 0.01, rely = 0.55)
 
-        boton_info = Button(text="Primera columna",
-        command=lambda:EventosBot.info(), pady=1, padx=1, height = 1, 
-        width=20, bg="#FFD2AA", font=("Arial", 9))
-        boton_info.place(relx = 0.2, rely = 0.96, anchor="se")      
+        boton_info = Button(text="Primera columna\n(Tiempo)",
+        command=lambda:EventosBot.info(), pady=2, padx=1, height = 2, 
+        width=20, bg=BOTONES2, font=("Arial Black", 9))
+        boton_info.place(relx = 0.01, rely = 0.82)      
 
         boton_about = Button(text="Sobre CSV-Unificator",
         command=lambda:EventosBot.sobre(), pady=1, padx=1, height = 1, 
-        width=18, bg="#FAD9BF", font=("Arial", 9))
-        boton_about.place(relx = 0.9, rely = 0.025, anchor="n")
+        width=19, bg=BOTONES2, font=("Arial", 9))
+        boton_about.place(relx = 0.83, rely = 0.025)
 
         # Eventos de botones
         pedir_csv = EventosBot(ruta_carp_cvs_s, salida_ruta_csv)
