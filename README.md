@@ -11,4 +11,4 @@ Python versión: **3.10.6**
 _Gabriel Molina,_  
 _-- inicio desarrollo: 31/08/23_  
 _-- Alfa-00: 7/09/2023_  
-_-- 1.0: 12/09/2023_
+_-- Pre-Release-1.0: 12/09/2023_
