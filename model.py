@@ -326,6 +326,7 @@ class Verificador():
         
                 i_lista_col0s.append([lista_nombres[i], lista_nombres[j], i_fal])
         
+        print(i_lista_col0s)
         # usar expresión de compresión de listas para separar listas de errores
         if [] not in [err for n0, n1, err in i_lista_col0s]:
             inconsist = [[n0, n1, err] for n0, n1, err in i_lista_col0s if err != []]
