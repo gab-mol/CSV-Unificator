@@ -7,9 +7,14 @@ Basada en prototipos del año 2022, en R y Python, este proyecto sirve como prá
   
 Python versión: **3.10.6**
 
+Licencia: **MIT License**
+
 ---
-_Gabriel Molina,_  
-_-- inicio desarrollo: 31/08/23_  
+#### Desarrollo:
+_-- inicio: 31/08/23_  
 _-- Alfa-00: 7/09/2023_  
 _-- Pre-Release-1.0: 12/09/2023_  
 _-- 1.0: 13/09/2023_
+
+___
+### _Gabriel Molina, 2023._ 
