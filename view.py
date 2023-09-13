@@ -32,7 +32,7 @@ class Window:
         root.config(bg=FONDO)
         root.title("CSV-Unificator")
         '''Estudiar como usar strings para codificar imágenes'''
-        #root.iconphoto(True,PhotoImage(file=os.path.join(os. getcwd(),"icoTR.png")))
+        root.iconphoto(True,PhotoImage(data=ICOSD))
         
         # Info
         info0 = Label(text=f"Versión:  {VERS}",
@@ -117,3 +117,19 @@ class Window:
         # Eventos de botones
         pedir_csv = EventosBot(ruta_carp_cvs_s, salida_ruta_csv)
         ruta_salida = EventosBot(ruta_xlsx_s, salida_ruta_excel)
+
+
+# Ícono de la esquina superior derecha (en base64)
+ICOSD = "iVBORw0KGgoAAAANSUhEUgAAABkAAAALCAIAAAAFlbGkAAAAAXNSR0IArs4c6QAAAA\
+RnQU1BAACxjwv8YQUAAAAJcEhZcwAADsEAAA7BAbiRa+0AAAJsSURBVDhPrVJPbxJBHJ3ZXZYuCz\
+vQpZRSsYKxxdhWPNCYSBMPJJoYTb140YMfxU/hTXusB//FmvgvUQ+20VqKSqHSUtqmWG2RAgWWXYb\
+dcbZA9QP4MsnMvpn35vd2fpDcnwX/CUxnhhAwDGBYc9D1Ef7yTIc3P7sqCvNAR3JYF4RYb+VLRUVR\
+LDw/4JIdPQIwDKop1WuVgzLGTZa3yg6EBNtOqdjCTZ/bwx1aqE3tZ7FgF+19kpO9M3WzrNRnXj6RE\
+h/kehWvJhe+LbL9gzJyJXOZwttn0v6erVYh2dTrxXnvydDm7o7+dBoNDfOol3q1ciuJmbts6JwHOT\
+l6+fxa+vxWenTqNvAHgVKTl+Y/raWPufsLXxfCPVY4edkpOSHG15Wa6ECiVYh7T8BsWh/wk6ZmZJI\
+4HA35/DSHmRxrqhv1YsllJhcdvZOXrkRjAsf1jYzV1Mb+u+fr719kU0uFhkIIsQuCdXyinF1uFPf0\
+3R+57fXAeIRlWepjehE6CGHozEBC/6BSL1crxDDGzoSlq7fQxEWHP+hRlcqje3OraZrrdOBUTkQ4F\
+VdXElvHR4a9g0DXO15ul5zIb7C57+D3Htxezz+efvV5TtX1bDLuPCjJEur3+SWPz4K1Ur1Kr0U2kR\
+2NkM3Mbn5j6OwEx3HUhMJ8R90w3iwnKqm4jDUNMjgQikUusAy78OWj+Csv6C1adQ2AymAwGo6I1h4\
+qqzYaD2cfWJHzRuwaRwMSmq3dE4D2CFRxU8WYvrTdPG3u0TgaxloLUy8LZ7HxvKk5lJndgDEDIU+L\
+ajNdr/ay26LdPRNHJMW/PEV764gE4A/sbBqd6FYa4AAAAABJRU5ErkJggg=="

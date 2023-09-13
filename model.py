@@ -40,7 +40,7 @@ __author__ = "Gabriel Molina"
 __maintainer__ = "Gabriel Molina"
 __email__ = "g-abox@hotmail.com"
 __version__ = "Pre-Release-1.0"
-__copyright__ = f"Copyright {HoFe.fecha()}"
+__copyright__ = "MIT License"
 __annotations__ = 'Desarrollo concluído.'
 
 # Nombre de primera columna
